@@ -4,7 +4,13 @@ on:
       - master
 jobs:
   build:
-    runs-on: Ubuntu-latest
+    runs-on: ubuntu-latest 
     steps:
-      - name: "mmmm"
-        run: echo "nazeer"    
+      - uses: actions/checkout@v3
+
+      - name: " login to dockerhub"
+        run: docker login --username ${{ secrets.DOCKERUSERNAME}} --password ${{ secrets.DOCKERTOKEN }}
+      - name: " building docker "
+        run: docker build -t ${{ secrets.DOCKERUSERNAME}}/docker-image-creation .
+      - name: " pushing to docker hub "
+        run: docker push ${{ secrets.DOCKERUSERNAME}}/docker-image-creation
